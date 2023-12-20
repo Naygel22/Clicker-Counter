@@ -27,3 +27,13 @@ body{
   border-radius: 50%;
   background-color: white;
 }
+.countBar{
+  display: flex;
+}
+.clickerImage{
+  width: 400px;
+  margin-top: 20px;
+}
+.buttonStartGame{
+  margin: 50px;
+}
