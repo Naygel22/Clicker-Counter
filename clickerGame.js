@@ -17,6 +17,12 @@ function createCirclesLevel1(){
   circlesLevel1.classList.add('circlesLevel1');
   circlesContainer.appendChild(circlesLevel1);
   circlesLevel1.style.backgroundColor = generateRandomColor();
+  
+  //po kliknieciu tworzy nowy circle
+  circlesLevel1.addEventListener('click', () => {
+    circlesLevel1.classList.add('hidden');
+    createCirclesLevel1();
+  })
   setRandomCirclePosition();
 }
 
