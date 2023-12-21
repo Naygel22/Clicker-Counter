@@ -26,6 +26,7 @@ body{
   width: 70px;
   border-radius: 50%;
   background-color: white;
+  position: absolute;
 }
 .countBar{
   display: flex;

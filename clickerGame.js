@@ -4,18 +4,23 @@ const circlesContainer = document.querySelector('.circlesContainer');
 const currentScoreBoard = document.querySelector('.currentScoreBoard');
 const countBar = document.querySelector('.countBar');
 let circlesLevel1;
+let circleInterval;
 let count = 1;
 let countScoreElement; // Nowy element do wyświetlania liczby
 
 currentScoreBoard.classList.add('hidden');
 
+
+
 buttonStartGame.addEventListener('click', () => {
   startScreen.classList.add('hidden');
   currentScoreBoard.classList.remove('hidden');
   createCirclesLevel1();
+  
 });
 
 function createCirclesLevel1() {
+  clearInterval(circleInterval);
   circlesLevel1 = document.createElement('div');
   circlesLevel1.classList.add('circlesLevel1');
   circlesContainer.appendChild(circlesLevel1);
@@ -23,12 +28,18 @@ function createCirclesLevel1() {
 
   // Po kliknięciu tworzy nowy circle
   circlesLevel1.addEventListener('click', () => {
-    circlesLevel1.classList.add('hidden');
+    //circlesLevel1.classList.add('hidden');
+    circlesLevel1.remove();
     createCirclesLevel1();
     countScore();
   });
 
   setRandomCirclePosition();
+
+  circleInterval = setInterval(()=>{
+    circlesLevel1.remove();  //odjac punkty gdy nie kliknie
+    createCirclesLevel1();
+    },1000)
 }
 
 function generateRandomColor() {
@@ -39,8 +50,9 @@ function generateRandomColor() {
 }
 
 function setRandomCirclePosition() {
-  const randomTop = Math.floor(Math.random() * window.innerHeight);
-  const randomLeft = Math.floor(Math.random() * window.innerWidth);
+  const circleDimensions = circlesLevel1.getBoundingClientRect();
+  const randomTop = Math.floor(Math.random() * (window.innerHeight - circleDimensions.height));
+  const randomLeft = Math.floor(Math.random() * (window.innerWidth - circleDimensions.width));
 
   // Apply the random position to the circlesLevel1
   circlesLevel1.style.top = `${randomTop}px`;
