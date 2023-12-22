@@ -3,10 +3,15 @@ const startScreen = document.querySelector('.startScreen');
 const circlesContainer = document.querySelector('.circlesContainer');
 const currentScoreBoard = document.querySelector('.currentScoreBoard');
 const countBar = document.querySelector('.countBar');
+const countText = document.querySelector('.countText');
+const timeText = document.querySelector('.timeText');
+
 let circlesLevel1;
 let circleInterval;
 let count = 1;
-let countScoreElement; // Nowy element do wyświetlania liczby
+let countTime = 15;
+let timerInterval;
+//let countScoreElement; // Nowy element do wyświetlania liczby
 
 currentScoreBoard.classList.add('hidden');
 
@@ -16,7 +21,7 @@ buttonStartGame.addEventListener('click', () => {
   startScreen.classList.add('hidden');
   currentScoreBoard.classList.remove('hidden');
   createCirclesLevel1();
-  
+  startTimer();
 });
 
 function createCirclesLevel1() {
@@ -37,9 +42,11 @@ function createCirclesLevel1() {
   setRandomCirclePosition();
 
   circleInterval = setInterval(()=>{
+    count--;
+    countText.textContent = count;
     circlesLevel1.remove();  //odjac punkty gdy nie kliknie
     createCirclesLevel1();
-    },1000)
+    },2000)
 }
 
 function generateRandomColor() {
@@ -50,7 +57,7 @@ function generateRandomColor() {
 }
 
 function setRandomCirclePosition() {
-  const circleDimensions = circlesLevel1.getBoundingClientRect();
+  const circleDimensions = circlesLevel1.getBoundingClientRect(); //przypisywanie właściwości circle, czyli jego height, width itd.
   const randomTop = Math.floor(Math.random() * (window.innerHeight - circleDimensions.height));
   const randomLeft = Math.floor(Math.random() * (window.innerWidth - circleDimensions.width));
 
@@ -60,12 +67,34 @@ function setRandomCirclePosition() {
 }
 
 function countScore() {
-  // Jeżeli element countScoreElement jeszcze nie istnieje, to go tworzymy
-  if (!countScoreElement) {
-    countScoreElement = document.createElement('p');
-    countScoreElement.classList.add('countScore');
-    countBar.appendChild(countScoreElement);
-  }
-  countScoreElement.textContent = count;
+  countText.textContent = count;
   count++;
 }
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    countTime--;
+    timeText.textContent = countTime;
+
+    if(countTime === 0){
+      clearInterval(timerInterval);
+      count = 0;
+      resetGame();
+    }
+
+  }, 1000);
+  
+}
+function resetGame() {
+    count = 0;
+    countTime = 15;
+    createCirclesLevel1();
+    startTimer();
+    return;
+}
+
+//getBoundingClientRect()
+//setInterval()
+//clearInterval()
+
+//media queries do tamtego html i css
