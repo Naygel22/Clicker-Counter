@@ -39,3 +39,13 @@ body{
 .buttonStartGame{
   margin: 50px;
 }
+.endScreen{
+  width: 600px;
+    background-color: rgba(247, 144, 144, 1);
+    background-image: radial-gradient(circle, rgba(247, 144, 144, 1) 0%, rgba(59, 41, 86, 1) 100%);
+    color: black;
+    margin: 100px auto 0;
+    border-radius: 20px;
+    padding: 40px 35px;
+    text-align: center;
+}

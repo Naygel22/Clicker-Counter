@@ -5,16 +5,20 @@ const currentScoreBoard = document.querySelector('.currentScoreBoard');
 const countBar = document.querySelector('.countBar');
 const countText = document.querySelector('.countText');
 const timeText = document.querySelector('.timeText');
+const endScreen = document.querySelector('.endScreen');
+const playAgainButton = document.querySelector('.playAgainButton');
+const scoreNumber = document.querySelector('.scoreNumber');
 
 let circlesLevel1;
 let circleInterval;
-let count = 1;
+let count = 0;
 let countTime = 15;
 let timerInterval;
+let endScore;
 //let countScoreElement; // Nowy element do wyświetlania liczby
 
 currentScoreBoard.classList.add('hidden');
-
+endScreen.classList.add('hidden');
 
 
 buttonStartGame.addEventListener('click', () => {
@@ -25,6 +29,11 @@ buttonStartGame.addEventListener('click', () => {
 });
 
 function createCirclesLevel1() {
+  if(countTime === 0){
+    clearInterval(timerInterval);
+      count = 0;
+    return;
+  }
   clearInterval(circleInterval);
   circlesLevel1 = document.createElement('div');
   circlesLevel1.classList.add('circlesLevel1');
@@ -69,6 +78,7 @@ function setRandomCirclePosition() {
 function countScore() {
   countText.textContent = count;
   count++;
+  endScore = count;
 }
 
 function startTimer() {
@@ -79,7 +89,9 @@ function startTimer() {
     if(countTime === 0){
       clearInterval(timerInterval);
       count = 0;
-      resetGame();
+      circlesLevel1.remove();
+      showEndScreen();
+      //resetGame();
     }
 
   }, 1000);
@@ -88,11 +100,23 @@ function startTimer() {
 function resetGame() {
     count = 0;
     countTime = 15;
+    timeText.textContent = countTime;
+    circlesLevel1.remove();
     createCirclesLevel1();
     startTimer();
     return;
 }
 
+function showEndScreen() {
+  endScreen.classList.remove('hidden');
+  scoreNumber.textContent = endScore;
+
+  playAgainButton.addEventListener('click', () => {
+    endScreen.classList.add('hidden');
+    //currentScoreBoard.classList.add('hidden');
+    resetGame();
+  })
+}
 //getBoundingClientRect()
 //setInterval()
 //clearInterval()
