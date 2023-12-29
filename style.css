@@ -37,7 +37,22 @@ body{
   margin-top: 20px;
 }
 .buttonStartGame{
-  margin: 50px;
+  margin: 40px;
+  margin-bottom: 0px;
+  width: 150px;
+  height: 50px;
+  background: transparent;
+  cursor: pointer;
+  border: black 1px solid;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.buttonStartGame:hover{
+  background: rgba(30, 255, 0, 0.2);
+  font-weight: bold;
+  color: white;
+  border: white 1px solid;
+  transition: 0.3s;
 }
 .endScreen{
   width: 600px;
@@ -48,4 +63,29 @@ body{
     border-radius: 20px;
     padding: 40px 35px;
     text-align: center;
+}
+.descriptionText{
+  margin-top: 20px;
+}
+.endText{
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+.playAgainButton{
+  margin: 40px;
+  margin-bottom: 0px;
+  width: 150px;
+  height: 50px;
+  background: transparent;
+  cursor: pointer;
+  border: black 1px solid;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.playAgainButton:hover{
+  background: rgba(255, 0, 0, 0.2);
+  font-weight: bold;
+  color: white;
+  border: white 1px solid;
+  transition: 0.3s;
 }
