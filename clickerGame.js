@@ -108,8 +108,10 @@ function resetGame() {
 }
 
 function showEndScreen() {
+  clearInterval(circleInterval);
   endScreen.classList.remove('hidden');
   scoreNumber.textContent = endScore;
+  console.log("Wynik na ekranie końcowym: " + endScore);  //wychodzi undefined
 
   playAgainButton.addEventListener('click', () => {
     endScreen.classList.add('hidden');
