@@ -8,18 +8,18 @@ const timeText = document.querySelector('.timeText');
 const endScreen = document.querySelector('.endScreen');
 const playAgainButton = document.querySelector('.playAgainButton');
 const scoreNumber = document.querySelector('.scoreNumber');
+const level2Button = document.querySelector('.level2Button');
 
 let circlesLevel1;
+let circlesLevel2;
 let circleInterval;
 let count = 0;
 let countTime = 15;
 let timerInterval;
 let endScore;
-//let countScoreElement; // Nowy element do wyświetlania liczby
 
 currentScoreBoard.classList.add('hidden');
 endScreen.classList.add('hidden');
-
 
 buttonStartGame.addEventListener('click', () => {
   startScreen.classList.add('hidden');
@@ -29,9 +29,9 @@ buttonStartGame.addEventListener('click', () => {
 });
 
 function createCirclesLevel1() {
-  if(countTime === 0){
+  if (countTime === 0) {
     clearInterval(timerInterval);
-      count = 0;
+    count = 0;
     return;
   }
   clearInterval(circleInterval);
@@ -40,24 +40,80 @@ function createCirclesLevel1() {
   circlesContainer.appendChild(circlesLevel1);
   circlesLevel1.style.backgroundColor = generateRandomColor();
 
-  // Po kliknięciu tworzy nowy circle
   circlesLevel1.addEventListener('click', () => {
-    //circlesLevel1.classList.add('hidden');
     countScore();
     circlesLevel1.remove();
     createCirclesLevel1();
   });
 
-  setRandomCirclePosition();
+  setRandomCirclePosition(circlesLevel1);
 
-  circleInterval = setInterval(()=>{
+  circleInterval = setInterval(() => {
     count--;
-    circlesLevel1.remove();  //odjac punkty gdy nie kliknie
+    circlesLevel1.remove();
     createCirclesLevel1();
     endScore = count;
-    },2000)
+  }, 2000);
 
-    countText.textContent = count;
+  countText.textContent = count;
+}
+
+function createCirclesLevel2() {
+  if (countTime === 0) {
+    clearInterval(timerInterval);
+    count = 0;
+    return;
+  }
+  clearInterval(circleInterval);
+  circlesLevel2 = document.createElement('div');
+  circlesLevel2.classList.add('circlesLevel2');
+  circlesContainer.appendChild(circlesLevel2);
+  circlesLevel2.style.backgroundColor = generateRandomColor();
+
+  circlesLevel2.addEventListener('click', () => {
+    countScore();
+    circlesLevel2.remove();
+    createCirclesLevel2();
+  });
+
+  setRandomCirclePosition(circlesLevel2);
+
+  circleInterval = setInterval(() => {
+    count--;
+    circlesLevel2.remove();
+    createCirclesLevel2();
+    endScore = count;
+  }, 2000);
+
+  countText.textContent = count;
+}
+
+level2Button.addEventListener('click', () => {
+  clearInterval(circleInterval);
+  endScreen.classList.add('hidden');
+  resetGame(2);
+  startTimer();
+});
+
+function resetGame(level) {
+  count = 0;
+  countTime = 15;
+  timeText.textContent = countTime;
+  countText.textContent = count;
+
+  // if (circlesLevel1) {
+  //   circlesLevel1.remove();
+  // } else if (circlesLevel2) {
+  //   circlesLevel2.remove();
+  // }
+
+  if (level === 1) {
+    circlesLevel1.remove();
+    createCirclesLevel1();
+  } else if (level === 2) {
+    circlesLevel2.remove(); //jak to jest to nie wyswietla circles
+    createCirclesLevel2();
+  }
 }
 
 function generateRandomColor() {
@@ -67,19 +123,17 @@ function generateRandomColor() {
   return randomColor;
 }
 
-function setRandomCirclePosition() {
-  const circleDimensions = circlesLevel1.getBoundingClientRect(); //przypisywanie właściwości circle, czyli jego height, width itd.
+function setRandomCirclePosition(circle) {
+  const circleDimensions = circle.getBoundingClientRect();
   const randomTop = Math.floor(Math.random() * (window.innerHeight - circleDimensions.height));
   const randomLeft = Math.floor(Math.random() * (window.innerWidth - circleDimensions.width));
 
-  // Apply the random position to the circlesLevel1
-  circlesLevel1.style.top = `${randomTop}px`;
-  circlesLevel1.style.left = `${randomLeft}px`;
+  circle.style.top = `${randomTop}px`;
+  circle.style.left = `${randomLeft}px`;
 }
 
 function countScore() {
-  countText.textContent = count;
-  count++;
+  countText.textContent = 'Count: ' + ++count;
   endScore = count;
 }
 
@@ -88,40 +142,24 @@ function startTimer() {
     countTime--;
     timeText.textContent = countTime;
 
-    if(countTime === 0){
+    if (countTime === 0) {
       clearInterval(timerInterval);
       count = 0;
-      circlesLevel1.remove();
+      (circlesLevel1 || circlesLevel2)?.remove();  //Optional Chaining
       showEndScreen();
-      //resetGame();
     }
 
   }, 1000);
-  
-}
-function resetGame() {
-    count = 0;
-    countTime = 15;
-    timeText.textContent = countTime;
-    circlesLevel1.remove();
-    createCirclesLevel1();
-    startTimer();
-    return;
 }
 
 function showEndScreen() {
   clearInterval(circleInterval);
   endScreen.classList.remove('hidden');
-  scoreNumber.textContent = endScore; 
+  scoreNumber.textContent = endScore;
 
   playAgainButton.addEventListener('click', () => {
     endScreen.classList.add('hidden');
-    //currentScoreBoard.classList.add('hidden');
-    resetGame();
-  })
+    resetGame(1);
+    startTimer();
+  });
 }
-//getBoundingClientRect()
-//setInterval()
-//clearInterval()
-
-//media queries do tamtego html i css

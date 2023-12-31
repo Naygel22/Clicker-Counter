@@ -33,7 +33,7 @@ body{
   width: 400px;
   margin-top: 20px;
 }
-.buttonStartGame{
+.buttonStartGame, .level2Button{
   margin: 40px;
   margin-bottom: 0px;
   width: 150px;
@@ -44,7 +44,7 @@ body{
   border-radius: 5px;
   font-size: 15px;
 }
-.buttonStartGame:hover{
+.buttonStartGame:hover, .level2Button:hover{
   background: rgba(30, 255, 0, 0.2);
   font-weight: bold;
   color: white;
@@ -88,4 +88,12 @@ body{
 }
 .scoreNumber {
   font-weight: 700;
+}
+.circlesLevel2{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: solid 1px black;
+  background-color: white;
+  position: absolute;
 }
