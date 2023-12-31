@@ -29,9 +29,6 @@ body{
   background-color: white;
   position: absolute;
 }
-.countBar{
-  display: flex;
-}
 .clickerImage{
   width: 400px;
   margin-top: 20px;
@@ -88,4 +85,7 @@ body{
   color: white;
   border: white 1px solid;
   transition: 0.3s;
+}
+.scoreNumber {
+  font-weight: 700;
 }

@@ -43,19 +43,21 @@ function createCirclesLevel1() {
   // Po kliknięciu tworzy nowy circle
   circlesLevel1.addEventListener('click', () => {
     //circlesLevel1.classList.add('hidden');
+    countScore();
     circlesLevel1.remove();
     createCirclesLevel1();
-    countScore();
   });
 
   setRandomCirclePosition();
 
   circleInterval = setInterval(()=>{
     count--;
-    countText.textContent = count;
     circlesLevel1.remove();  //odjac punkty gdy nie kliknie
     createCirclesLevel1();
+    endScore = count;
     },2000)
+
+    countText.textContent = count;
 }
 
 function generateRandomColor() {
@@ -110,8 +112,7 @@ function resetGame() {
 function showEndScreen() {
   clearInterval(circleInterval);
   endScreen.classList.remove('hidden');
-  scoreNumber.textContent = endScore;
-  console.log("Wynik na ekranie końcowym: " + endScore);  //wychodzi undefined
+  scoreNumber.textContent = endScore; 
 
   playAgainButton.addEventListener('click', () => {
     endScreen.classList.add('hidden');
