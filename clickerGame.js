@@ -9,9 +9,11 @@ const endScreen = document.querySelector('.endScreen');
 const playAgainButton = document.querySelector('.playAgainButton');
 const scoreNumber = document.querySelector('.scoreNumber');
 const level2Button = document.querySelector('.level2Button');
+const level3Button = document.querySelector('.level3Button');
 
 let circlesLevel1;
 let circlesLevel2;
+let circlesLevel3;
 let circleInterval;
 let count = 0;
 let countTime = 15;
@@ -20,6 +22,7 @@ let endScore;
 
 currentScoreBoard.classList.add('hidden');
 endScreen.classList.add('hidden');
+level3Button.classList.add('hidden');
 
 buttonStartGame.addEventListener('click', () => {
   startScreen.classList.add('hidden');
@@ -60,8 +63,11 @@ function createCirclesLevel1() {
 
 function createCirclesLevel2() {
   if (countTime === 0) {
+    circlesLevel2.remove();
     clearInterval(timerInterval);
     count = 0;
+    level2Button.classList.add('hidden');
+    level3Button.classList.remove('hidden');
     return;
   }
   clearInterval(circleInterval);
@@ -95,6 +101,48 @@ level2Button.addEventListener('click', () => {
   startTimer();
 });
 
+function createCirclesLevel3() {
+  if (countTime === 0) {
+    clearInterval(timerInterval);
+    count = 0;
+    level3Button.classList.add('hidden');
+    return;
+  }
+  clearInterval(circleInterval);
+  circlesLevel3 = document.createElement('div');
+  circlesLevel3.classList.add('circlesLevel3');
+  circlesContainer.appendChild(circlesLevel3);
+  circlesLevel3.style.backgroundColor = generateRandomColor();
+
+  circlesLevel3.addEventListener('click', () => {
+    countScore();
+    circlesLevel3.remove();
+    createCirclesLevel3();
+  });
+
+  setRandomCirclePosition(circlesLevel3);
+
+  circleInterval = setInterval(() => {
+    count--;
+    circlesLevel3.remove();
+    createCirclesLevel3();
+    endScore = count;
+  }, 1000);
+
+  countText.textContent = count;
+}
+
+level3Button.addEventListener('click', () => {
+  clearInterval(circleInterval);
+  endScreen.classList.add('hidden');
+  resetGame(3);
+  startTimer();
+});
+
+
+
+
+
 function resetGame(level) {
   count = 0;
   countTime = 15;
@@ -110,9 +158,12 @@ function resetGame(level) {
   if (level === 1) {
     circlesLevel1.remove();
     createCirclesLevel1();
-  } else if (level === 2) {
-    circlesLevel2.remove(); //jak to jest to nie wyswietla circles
+  } if (level === 2) {
+    //circlesLevel2.remove(); //jak to jest to nie wyswietla circles
     createCirclesLevel2();
+  } if (level === 3) {
+    //circlesLevel3.remove(); 
+    createCirclesLevel3();
   }
 }
 
@@ -133,7 +184,8 @@ function setRandomCirclePosition(circle) {
 }
 
 function countScore() {
-  countText.textContent = 'Count: ' + ++count;
+  countText.textContent = count;
+  count++;
   endScore = count;
 }
 
