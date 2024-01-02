@@ -63,7 +63,6 @@ function createCirclesLevel1() {
 
 function createCirclesLevel2() {
   if (countTime === 0) {
-    circlesLevel2.remove();
     clearInterval(timerInterval);
     count = 0;
     level2Button.classList.add('hidden');
@@ -97,6 +96,7 @@ function createCirclesLevel2() {
 level2Button.addEventListener('click', () => {
   clearInterval(circleInterval);
   endScreen.classList.add('hidden');
+  currentScoreBoard.classList.remove('hidden');
   resetGame(2);
   startTimer();
 });
@@ -135,11 +135,10 @@ function createCirclesLevel3() {
 level3Button.addEventListener('click', () => {
   clearInterval(circleInterval);
   endScreen.classList.add('hidden');
+  currentScoreBoard.classList.remove('hidden');
   resetGame(3);
   startTimer();
 });
-
-
 
 
 
@@ -149,20 +148,14 @@ function resetGame(level) {
   timeText.textContent = countTime;
   countText.textContent = count;
 
-  // if (circlesLevel1) {
-  //   circlesLevel1.remove();
-  // } else if (circlesLevel2) {
-  //   circlesLevel2.remove();
-  // }
-
   if (level === 1) {
-    circlesLevel1.remove();
     createCirclesLevel1();
   } if (level === 2) {
-    //circlesLevel2.remove(); //jak to jest to nie wyswietla circles
+    level2Button.classList.add('hidden');
+    level3Button.classList.remove('hidden');
     createCirclesLevel2();
   } if (level === 3) {
-    //circlesLevel3.remove(); 
+    level3Button.classList.add('hidden'); 
     createCirclesLevel3();
   }
 }
@@ -197,7 +190,7 @@ function startTimer() {
     if (countTime === 0) {
       clearInterval(timerInterval);
       count = 0;
-      (circlesLevel1 || circlesLevel2)?.remove();  //Optional Chaining
+      (circlesLevel1 || circlesLevel2 || circlesLevel3)?.remove();  //Optional Chaining
       showEndScreen();
     }
 
@@ -207,10 +200,15 @@ function startTimer() {
 function showEndScreen() {
   clearInterval(circleInterval);
   endScreen.classList.remove('hidden');
+  currentScoreBoard.classList.add('hidden');
   scoreNumber.textContent = endScore;
+  circlesLevel2.remove();
+  circlesLevel3.remove();
+  
 
   playAgainButton.addEventListener('click', () => {
     endScreen.classList.add('hidden');
+    currentScoreBoard.classList.remove('hidden');
     resetGame(1);
     startTimer();
   });
